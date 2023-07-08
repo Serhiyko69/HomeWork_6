@@ -5,17 +5,49 @@ JPEG_IMAGES = []
 JPG_IMAGES = []
 PNG_IMAGES = []
 SVG_IMAGES = []
+AVI_VIDEO = []
+MP4_VIDEO = []
+MOV_VIDEO = []
+MKV_VIDEO = []
+DOC_DOCUMENTS = []
+DOCX_DOCUMENTS = []
+TXT_DOCUMENTS = []
+PDF_DOCUMENTS = []
+XLSX_DOCUMENTS = []
+PPTX_DOCUMENTS = []
 MP3_AUDIO = []
+OGG_AUDIO = []
+WAV_AUDIO = []
+AMR_AUDIO = []
+ZIP_ARCHIVES = []
+GZ_ARCHIVES = []
+TAR_ARCHIVES = []
 MY_OTHER = []
-ARCHIVES = []
+
 
 REGISTER_EXTENSION = {
     'JPEG': JPEG_IMAGES,
     'JPG': JPG_IMAGES,
     'PNG': PNG_IMAGES,
     'SVG': SVG_IMAGES,
+    'AVI': AVI_VIDEO,
+    'MP4': MP4_VIDEO,
+    'MOV': MOV_VIDEO,
+    'MKV': MKV_VIDEO,
+    'DOC': DOC_DOCUMENTS,
+    'DOCX': DOCX_DOCUMENTS,
+    'TXT': TXT_DOCUMENTS,
+    'PDF': PDF_DOCUMENTS,
+    'XLSX': XLSX_DOCUMENTS,
+    'PPTX': PPTX_DOCUMENTS,
     'MP3': MP3_AUDIO,
-    'ZIP': ARCHIVES
+    'OGG': OGG_AUDIO,
+    'WAV': WAV_AUDIO,
+    'AMR': AMR_AUDIO,
+    'ZIP': ZIP_ARCHIVES,
+    'GZ': GZ_ARCHIVES,
+    'TAR': TAR_ARCHIVES
+
 }
 
 FOLDERS = []
@@ -23,7 +55,7 @@ EXTENSION = set()
 UNKNOWN = set()
 
 def get_extension(filename: str) -> str:
-    return Path(filename).suffix[1:].upper()  # перетворюємо розширення файлу на назву папки jpg -> JPG
+    return Path(filename).suffix[1:].upper()  # перетворюємо розширення файлу на папку з назвою розширення даного файлу
 
 def scan(folder: Path) -> None:
     for item in folder.iterdir():
@@ -37,9 +69,9 @@ def scan(folder: Path) -> None:
             continue  # переходимо до наступного елементу в сканованій папці
 
         #  Робота з файлом
-        ext = get_extension(item.name)  # беремо розширення файлу
+        ext = get_extension(item.name)  # розширення файлу
         fullname = folder / item.name  # беремо шлях до файлу
-        if not ext:  # якщо файл немає розширення то додаєм до невідомих
+        if not ext:  # якщо файл без розширення то додаєм до невідомих
             MY_OTHER.append(fullname)
         else:
             try:
@@ -58,8 +90,27 @@ if __name__ == "__main__":
     print(f'Images jpeg: {JPEG_IMAGES}')
     print(f'Images jpg: {JPG_IMAGES}')
     print(f'Images svg: {SVG_IMAGES}')
+    print(f'Video avi: {AVI_VIDEO}')
+    print(f'Video mp4: {MP4_VIDEO}')
+    print(f'Video mow: {MOV_VIDEO}')
+    print(f'Video mkv: {MKV_VIDEO}')
+    print(f'Documents doc: {DOC_DOCUMENTS}')
+    print(f'Documents docx: {DOCX_DOCUMENTS}')
+    print(f'Documents txt: {TXT_DOCUMENTS}')
+    print(f'Documents xlsx: {XLSX_DOCUMENTS}')
+    print(f'Documents pdf: {PDF_DOCUMENTS}')
+    print(f'Documents pptx: {PPTX_DOCUMENTS}')
     print(f'Audio mp3: {MP3_AUDIO}')
-    print(f'Archives: {ARCHIVES}')
+    print(f'Audio ogg: {OGG_AUDIO}')
+    print(f'Audio wav: {WAV_AUDIO}')
+    print(f'Audio amr: {AMR_AUDIO}')
+
+    print(f'Archives zip: {ZIP_ARCHIVES}')
+    print(f'Archives gz: {GZ_ARCHIVES}')
+    print(f'Archives tar: {TAR_ARCHIVES}')
+
+
+
 
     print(f'Types of files in folder: {EXTENSION}')
     print(f'Unknown files of types: {UNKNOWN}')
