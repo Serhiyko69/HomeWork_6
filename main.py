@@ -3,14 +3,20 @@ import shutil
 import sys
 import parser as parser
 from normalize import normalize
+import os
 
 def handle_media(filename: Path, target_folder: Path) -> None:
     target_folder.mkdir(exist_ok=True, parents=True)
-    filename.replace(target_folder / normalize(filename.name))
+    destination_file = target_folder / filename.name
+    if not os.path.exists(destination_file):  # добавив перевірку на наявість файлу в папці перед переміщенням
+        shutil.move(filename, target_folder)
+
 
 def handle_other(filename: Path, target_folder: Path) -> None:
     target_folder.mkdir(exist_ok=True, parents=True)
-    filename.replace(target_folder / normalize(filename.name))
+    destination_file = target_folder / filename.name
+    if not os.path.exists(destination_file):  # добавив перевірку на наявість файлу в папці перед переміщенням
+        shutil.move(filename, target_folder)
 
 def handle_archive(filename: Path, target_folder: Path) -> None:
     target_folder.mkdir(exist_ok=True, parents=True)  # робимо папку для архіва
@@ -73,14 +79,14 @@ def main(folder: Path):
         handle_media(file, folder / 'audio' / 'AMR')
 
     for file in parser.ZIP_ARCHIVES:
-        handle_media(file, folder / 'archives' / 'ZIP')
+        handle_archive(file, folder / 'archives' / 'ZIP')
     for file in parser.GZ_ARCHIVES:
-        handle_media(file, folder / 'archives' / 'GZ')
+        handle_archive(file, folder / 'archives' / 'GZ')
     for file in parser.TAR_ARCHIVES:
-        handle_media(file, folder / 'archives' / 'TAR')
+        handle_archive(file, folder / 'archives' / 'TAR')
 
     for file in parser.MY_OTHER:
-        handle_media(file, folder / 'MY_OTHER')
+        handle_other(file, folder / 'MY_OTHER')
 
     for folder in parser.FOLDERS[::-1]:
         handle_folder(folder)
